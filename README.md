@@ -1,4 +1,4 @@
-# [BK-Cake-Shop](https://bk-cake-shop-react-rtk-ts.netlify.app/)
+# <a href="https://bk-cake-shop-react-rtk-ts.netlify.app/" target="_blank">BK-Cake-Shop</a>
 
 This SPA was build using React + Typescript. This project shows demonstrate Redux-Toolkit for centralized state management. The webapp is deployed on `Netlify` platform
 
