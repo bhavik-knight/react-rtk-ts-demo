@@ -5,6 +5,8 @@ import { ordered as cakeOrdered, restocked as cakeRestocked } from "../cake/cake
 const CakeView = () => {
     const [orderCount, setOrderCount] = useState(1);
     const [restockCount, setRestockCount] = useState(1);
+    const cakeInStock = useAppSelector((state) => state.cake.canOrder);
+    const icecreamInStock = useAppSelector((state) => state.icecream.canOrderIcecream);
 
     const numberOfCake = useAppSelector((state) => state.cake.numberOfCake);
     const dispatch = useAppDispatcher();
@@ -21,6 +23,8 @@ const CakeView = () => {
 
     return (
         <>
+            {!cakeInStock && <h5>Our of stock: Cakes</h5>}
+            {!icecreamInStock && <h5>Out of stock: Icecreams</h5>}
             <h4>Number of Cakes: {numberOfCake}</h4>
             <div>
                 <span>

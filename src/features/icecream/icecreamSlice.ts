@@ -3,10 +3,12 @@ import { ordered as cakeOrdered } from "../cake/cakeSlice";
 
 interface InitialState {
     numberOfIcecream: number;
+    canOrderIcecream: boolean;
 }
 
 const initialIcecreamState: InitialState = {
     numberOfIcecream: 20,
+    canOrderIcecream: true,
 };
 
 const iceCreamSlice = createSlice({
@@ -16,10 +18,16 @@ const iceCreamSlice = createSlice({
 
     reducers: {
         ordered: (state: InitialState, action: PayloadAction<number>) => {
-            if (action.payload) {
+            if (action.payload && state.numberOfIcecream >= action.payload) {
                 state.numberOfIcecream -= action.payload;
-            } else {
+            }
+
+            if (!action.payload && state.numberOfIcecream > 0) {
                 state.numberOfIcecream--;
+            }
+
+            if (state.numberOfIcecream <= 0) {
+                state.canOrderIcecream = false;
             }
         },
 
@@ -29,12 +37,18 @@ const iceCreamSlice = createSlice({
             } else {
                 state.numberOfIcecream++;
             }
+
+            if (!state.canOrderIcecream && state.numberOfIcecream > 0) {
+                state.canOrderIcecream = true;
+            }
         },
     },
 
     extraReducers: (builder) => {
         builder.addCase(cakeOrdered, (state) => {
-            state.numberOfIcecream--;
+            if (state.canOrderIcecream && state.numberOfIcecream > 0) {
+                state.numberOfIcecream--;
+            }
         });
     },
 });

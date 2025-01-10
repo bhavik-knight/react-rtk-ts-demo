@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface InitialState {
     numberOfCake: number;
+    canOrder: boolean;
 }
 
 const initialCakeState: InitialState = {
     numberOfCake: 10,
+    canOrder: true,
 };
 
 const cakeSlice = createSlice({
@@ -15,10 +17,14 @@ const cakeSlice = createSlice({
 
     reducers: {
         ordered: (state: InitialState, action: PayloadAction<number>) => {
-            if (action.payload) {
+            if (action.payload && state.numberOfCake >= action.payload) {
                 state.numberOfCake -= action.payload;
-            } else {
+            } else if (state.numberOfCake > 0) {
                 state.numberOfCake--;
+            }
+
+            if (state.numberOfCake <= 0) {
+                state.canOrder = false;
             }
         },
 
@@ -27,6 +33,10 @@ const cakeSlice = createSlice({
                 state.numberOfCake += action.payload;
             } else {
                 state.numberOfCake++;
+            }
+
+            if (!state.canOrder && state.numberOfCake > 0) {
+                state.canOrder = true;
             }
         },
     },
